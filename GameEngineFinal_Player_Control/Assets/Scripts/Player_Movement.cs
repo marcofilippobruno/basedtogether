@@ -23,6 +23,7 @@ public class Player_Movement : MonoBehaviour {
         {
 
             PlayerAction();
+            Rotation();
 
         }
     }
@@ -50,7 +51,8 @@ public class Player_Movement : MonoBehaviour {
         }
         if (moveX != 0.0f || moveZ != 0.0f)
         {
-            transform.Translate(new Vector3(moveX, 0, moveZ));
+            transform.Translate(new Vector3(moveX, 0, moveZ),Space.World);
+
         }
     }
     bool RayCast(int direction)
@@ -64,5 +66,28 @@ public class Player_Movement : MonoBehaviour {
         {
             return false;
         }
+    }
+    void Rotation()
+    {
+        if( whichPlayer == 2 )
+        {
+            float rh = Input.GetAxis( "R_Joy_H" );
+            float rv = Input.GetAxis( "R_Joy_V" );
+            transform.Rotate( new Vector3( 0f, rh * 5, 0f ) );
+        }
+        else if( whichPlayer == 1 )
+        {
+            float rh = 0f;
+            if( Input.GetKey( KeyCode.RightArrow ) )
+            {
+                rh = 5f;
+            }
+            else if( Input.GetKey( KeyCode.LeftArrow ) )
+            {
+                rh = -5f;
+            }
+            transform.Rotate( new Vector3( 0f, rh, 0f ) );
+        }
+
     }
 }
