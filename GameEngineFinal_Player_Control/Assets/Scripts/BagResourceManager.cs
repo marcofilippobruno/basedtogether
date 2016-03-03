@@ -4,9 +4,9 @@ using System.Collections;
 
 public class BagResourceManager : MonoBehaviour {
 
-	private static int mudInBag;
-    private static int lumberInBag;
-    private static int stoneInBag;
+	public static int mudInBag;
+    public static int lumberInBag;
+    public static int stoneInBag;
 
     Text text;
 

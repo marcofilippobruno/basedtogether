@@ -11,6 +11,10 @@ public class Walls : MonoBehaviour {
     public int rockReq;
     public int mudReq;
 
+    private int playerWood;
+    private int playerRock;
+    private int playerMud;
+
     public int[] repairReq = new int[3];
 
     private int fullyUpgraded = 2;
@@ -44,10 +48,14 @@ public class Walls : MonoBehaviour {
 
     // check for required resources, repair if requirements met // 
     void Repaired(int[] repairReq){
+
+        SetVals();
+
+
         // if can be repaired at all
         if( currentWallHealth < maxWallHealth )
         {
-            if( repairReq[0] <= woodReq && repairReq[1] <= rockReq && repairReq[2] <= mudReq )
+            if( playerWood >= repairReq[0] && playerRock >= repairReq[1] && playerMud >= repairReq[2] )
             {
                 currentWallHealth += 10;
                 if( currentWallHealth > maxWallHealth )
@@ -56,30 +64,35 @@ public class Walls : MonoBehaviour {
                 }
 
                 // reduce player resources
+                BagResourceManager.SubtractResources( repairReq[0], repairReq[1], repairReq[2] );
             }
-
         }
     }
 
     // check for required resources, upgrade or not // 
-    public int Upgrade(int currentState, int wood, int rock, int mud){
+    public int Upgrade(int currentState){
+
+        SetVals();
+
         int returnVal = 0;
         if (currentState < fullyUpgraded){
             // upgrade if currently not upgraded at all // 
             if( currentState == 0 )
             {
-                if( wood >= woodReq && rock >= rockReq && mud >= mudReq )
+                if( playerWood >= woodReq && playerRock >= rockReq && playerMud >= mudReq )
                 {
                     // reduce player resources
+                    BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
                     returnVal = 1;
                 }
             }
             // upgrade if upgraded once already // 
             else if( currentState == 1 )
             {
-                if( wood >= woodReq && rock >= rockReq && mud >= mudReq )
+                if( playerWood >= woodReq && playerRock >= rockReq && playerMud >= mudReq )
                 {
                     // reduce player resources
+                    BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
                     returnVal = 2;
                 }
             }
@@ -90,6 +103,13 @@ public class Walls : MonoBehaviour {
             returnVal = 0;
         }
         return returnVal;
+    }
+
+    void SetVals()
+    {
+        playerWood = BagResourceManager.lumberInBag;
+        playerRock = BagResourceManager.stoneInBag;
+        playerMud = BagResourceManager.mudInBag;
     }
 
 }
