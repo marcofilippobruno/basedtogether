@@ -9,14 +9,18 @@ public class Player_Movement : MonoBehaviour {
     private int layerMask;
     private Rigidbody rigid;
     private float m_speed = 8.0f;
-    private bool onGround = false;
+    public bool onGround = false;
     private float inputx = 0f;
     private float inputz = 0f;
     private float turnSpeed = 450f;
     public float health = 100f;
     private float maxHealth = 100f;
     private float healAmount = 0.2f;
-   
+    public float moveForce = 30f;
+    private float maxSpeed = 15f;
+    private float upForce = 50f;
+    public bool onRamp = false;
+
 
     void Start ()
     {
@@ -50,8 +54,8 @@ public class Player_Movement : MonoBehaviour {
             inputx = Input.GetAxis( "Horizontal_P2" );
             inputz = Input.GetAxis( "Vertical_P2" );
         }
-        float moveX = inputx * m_speed * Time.fixedDeltaTime;
-        float moveZ = inputz * m_speed * Time.fixedDeltaTime;
+        float moveX = inputx * moveForce;
+        float moveZ = inputz * moveForce;
         if (RayCast(-1))
         {
             onGround = true;
@@ -62,8 +66,21 @@ public class Player_Movement : MonoBehaviour {
         }
         if (moveX != 0.0f || moveZ != 0.0f)
         {
-            transform.Translate(new Vector3(moveX, 0, moveZ),Space.World);
-
+            if (rigid.velocity.magnitude<maxSpeed)
+            {
+                if (onRamp)
+                {
+                    rigid.AddForce(new Vector3(moveX, upForce, moveZ));
+                }
+                else
+                {
+                    rigid.AddForce(new Vector3(moveX, 0f, moveZ));
+                }
+            }
+        }
+        if (!onGround || (onGround && onRamp))
+        {
+            rigid.AddForce(new Vector3(0f, -30f, 0f));
         }
     }
     void CheckHealth()
@@ -143,6 +160,20 @@ public class Player_Movement : MonoBehaviour {
             {
                 health += healAmount;
             }
+        }
+    }
+    void OnCollisionStay(Collision other)
+    {
+        if (other.collider.CompareTag("Ramp"))
+        {
+            onRamp = true;
+        }
+    }
+    void OnCollisionExit(Collision other)
+    {
+        if (other.collider.CompareTag("Ramp"))
+        {
+            onRamp = false;
         }
     }
 }
