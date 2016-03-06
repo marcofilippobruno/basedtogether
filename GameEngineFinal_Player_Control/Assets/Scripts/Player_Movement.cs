@@ -4,12 +4,15 @@ using System.Collections;
 public class Player_Movement : MonoBehaviour {
 
     public int whichPlayer = 0;
+    public Camera cam = null;
     private int layerMask;
     private Rigidbody rigid;
     private float m_speed = 8.0f;
     public bool onGround = false;
     private float inputx = 0f;
     private float inputz = 0f;
+    private float turnSpeed = 450f;
+
     void Start ()
     {
         layerMask = 1 << LayerMask.NameToLayer("Terrain");
@@ -71,23 +74,42 @@ public class Player_Movement : MonoBehaviour {
     {
         if( whichPlayer == 2 )
         {
-            float rh = Input.GetAxis( "R_Joy_H" );
-            float rv = Input.GetAxis( "R_Joy_V" );
-            transform.Rotate( new Vector3( 0f, rh * 5, 0f ) );
+            P2Turn();
         }
         else if( whichPlayer == 1 )
         {
-            float rh = 0f;
-            if( Input.GetKey( KeyCode.RightArrow ) )
-            {
-                rh = 5f;
-            }
-            else if( Input.GetKey( KeyCode.LeftArrow ) )
-            {
-                rh = -5f;
-            }
-            transform.Rotate( new Vector3( 0f, rh, 0f ) );
+            P1Turn();
         }
 
+    }
+    void P1Turn()
+    {
+        if(cam!=null)
+        {
+            Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit floorHit;
+
+            if (Physics.Raycast(camRay, out floorHit, 200f, layerMask))
+            {
+                Vector3 playerToMouse = floorHit.point - transform.position;
+                playerToMouse.y = 0f;
+
+                Quaternion newRot = Quaternion.LookRotation(playerToMouse);
+
+                rigid.rotation = Quaternion.RotateTowards(rigid.rotation, newRot, turnSpeed * Time.fixedDeltaTime);
+            }
+        }
+    }
+    void P2Turn()
+    {
+        float rh = Input.GetAxis("R_Joy_H") * 5f;
+        float rv = Input.GetAxis("R_Joy_V") * 5f;
+
+        if(rh!=0||rv!=0)
+        {
+            Vector3 targetPos = new Vector3(rigid.position.x+rh,rigid.position.y,rigid.position.z+rv);
+            Quaternion targetRot = Quaternion.LookRotation(targetPos - rigid.transform.position, Vector3.up);
+            rigid.rotation = Quaternion.RotateTowards(rigid.rotation, targetRot, turnSpeed * Time.fixedDeltaTime);
+        }
     }
 }
