@@ -5,13 +5,18 @@ public class Player_Movement : MonoBehaviour {
 
     public int whichPlayer = 0;
     public Camera cam = null;
+    public GameObject spawnPoint = null;
     private int layerMask;
     private Rigidbody rigid;
     private float m_speed = 8.0f;
-    public bool onGround = false;
+    private bool onGround = false;
     private float inputx = 0f;
     private float inputz = 0f;
     private float turnSpeed = 450f;
+    public float health = 100f;
+    private float maxHealth = 100f;
+    private float healAmount = 0.2f;
+   
 
     void Start ()
     {
@@ -24,10 +29,13 @@ public class Player_Movement : MonoBehaviour {
     {
         if (rigid != null)
         {
-
+            if (Input.GetKey(KeyCode.P))
+            {
+                health -= 0.5f;
+            }
             PlayerAction();
             Rotation();
-
+            CheckHealth();
         }
     }
     void PlayerAction()
@@ -56,6 +64,21 @@ public class Player_Movement : MonoBehaviour {
         {
             transform.Translate(new Vector3(moveX, 0, moveZ),Space.World);
 
+        }
+    }
+    void CheckHealth()
+    {
+        if (spawnPoint != null)
+        {
+            if (health <= 0f)
+            {
+                health = 100f;
+                rigid.transform.position = new Vector3(spawnPoint.transform.position.x, 1f, spawnPoint.transform.position.z);
+            }
+        }
+        if (health > maxHealth)
+        {
+            health = maxHealth;
         }
     }
     bool RayCast(int direction)
@@ -110,6 +133,16 @@ public class Player_Movement : MonoBehaviour {
             Vector3 targetPos = new Vector3(rigid.position.x+rh,rigid.position.y,rigid.position.z+rv);
             Quaternion targetRot = Quaternion.LookRotation(targetPos - rigid.transform.position, Vector3.up);
             rigid.rotation = Quaternion.RotateTowards(rigid.rotation, targetRot, turnSpeed * Time.fixedDeltaTime);
+        }
+    }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("HealVolume"))
+        {
+            if (health < maxHealth)
+            {
+                health += healAmount;
+            }
         }
     }
 }
