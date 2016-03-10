@@ -30,18 +30,20 @@ public class Walls : MonoBehaviour {
 	}
 	
 	// Update is called once per frame // 
-	void Update () {
-	
+	void FixedUpdate () {
+        if (currentWallHealth <= 0){
+            Debug.Log( "Im being called because i have no more health" );
+            Destroy( this.gameObject );
+        }
 	}
 
     // destroy wall if less than 0 hp, else, damage it by damage // 
     public void TakeDamage(int damage){
-        if (currentWallHealth <= 0){
+        Debug.Log( "Im being called" );
 
-            Destroy( gameObject );
-        }
-        else
+        if (currentWallHealth>=0)
         {
+            Debug.Log( "Im being called because i have health" );
             currentWallHealth -= damage;
         }
     }
