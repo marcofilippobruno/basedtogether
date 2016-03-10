@@ -9,7 +9,7 @@ public class Turret_Behavior : MonoBehaviour {
     private float detectRange = 10f;
     private float distance = 0f;
     private float turnSpeed = 100f;
-    private bool canShoot = true;
+    private bool canShoot = false;
     private int timer = 0;
 	void Start () 
     {
@@ -41,13 +41,21 @@ public class Turret_Behavior : MonoBehaviour {
     }
     void AimAtTarget()
     {
-        if( target != null )
+        if( target != null)
         {
-            Vector3 turretToTarget = target.transform.position - transform.position;
+            Vector3 self = new Vector3(transform.position.x,0,transform.position.z);
+            Vector3 other = new Vector3(target.transform.position.x,0,target.transform.position.z);
+            if( Vector3.Distance( self, other ) < detectRange )
+            {
+                Vector3 turretToTarget = target.transform.position - transform.position;
+                Quaternion newRot = Quaternion.LookRotation( turretToTarget );
+                transform.rotation = Quaternion.RotateTowards( transform.rotation, newRot, turnSpeed * Time.fixedDeltaTime );
+            }
+            else
+            {
+                canShoot = false;
+            }
 
-            Quaternion newRot = Quaternion.LookRotation( turretToTarget );
-
-            transform.rotation = Quaternion.RotateTowards( transform.rotation, newRot, turnSpeed * Time.fixedDeltaTime );
             
         }
 
