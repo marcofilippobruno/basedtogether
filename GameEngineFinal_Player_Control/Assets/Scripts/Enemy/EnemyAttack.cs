@@ -4,12 +4,12 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour
 {
     public float timeBetweenAttacks = 0.5f;
-    public int attackDamage = 10;
+    public int attackDamage = 5;
 
 
     Animator anim;
-    GameObject player;
-    PlayerHealth playerHealth;
+    GameObject structure;
+    Walls wall;
     EnemyHealth enemyHealth;
     bool playerInRange;
     float timer;
@@ -17,8 +17,8 @@ public class EnemyAttack : MonoBehaviour
 
     void Awake ()
     {
-        player = GameObject.FindGameObjectWithTag ("Player");
-        playerHealth = player.GetComponent <PlayerHealth> ();
+        structure = GameObject.FindGameObjectWithTag ("Building");
+        wall = structure.GetComponent <Walls> ();
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
     }
@@ -26,7 +26,7 @@ public class EnemyAttack : MonoBehaviour
 
     void OnTriggerEnter (Collider other)
     {
-        if(other.gameObject == player)
+        if(other.gameObject == structure)
         {
             playerInRange = true;
         }
@@ -35,7 +35,7 @@ public class EnemyAttack : MonoBehaviour
 
     void OnTriggerExit (Collider other)
     {
-        if(other.gameObject == player)
+        if(other.gameObject == structure)
         {
             playerInRange = false;
         }
@@ -51,7 +51,7 @@ public class EnemyAttack : MonoBehaviour
             Attack ();
         }
 
-        if(playerHealth.currentHealth <= 0)
+        if(wall.currentWallHealth <= 0)
         {
             anim.SetTrigger ("PlayerDead");
         }
@@ -62,9 +62,9 @@ public class EnemyAttack : MonoBehaviour
     {
         timer = 0f;
 
-        if(playerHealth.currentHealth > 0)
+        if( wall.currentWallHealth > 0 )
         {
-            playerHealth.TakeDamage (attackDamage);
+            wall.TakeDamage (attackDamage);
         }
     }
 }

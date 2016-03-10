@@ -35,10 +35,10 @@ public class Walls : MonoBehaviour {
 	}
 
     // destroy wall if less than 0 hp, else, damage it by damage // 
-    void TakeDamage(int damage){
+    public void TakeDamage(int damage){
         if (currentWallHealth <= 0){
 
-            Destroy( instantiatedObj );
+            Destroy( gameObject );
         }
         else
         {
@@ -64,7 +64,7 @@ public class Walls : MonoBehaviour {
                 }
 
                 // reduce player resources
-                BagResourceManager.SubtractResources( repairReq[0], repairReq[1], repairReq[2] );
+                //BagResourceManager.SubtractResources( repairReq[0], repairReq[1], repairReq[2] );
             }
         }
     }
@@ -82,7 +82,7 @@ public class Walls : MonoBehaviour {
                 if( playerWood >= woodReq && playerRock >= rockReq && playerMud >= mudReq )
                 {
                     // reduce player resources
-                    BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
+                   // BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
                     returnVal = 1;
                 }
             }
@@ -92,7 +92,7 @@ public class Walls : MonoBehaviour {
                 if( playerWood >= woodReq && playerRock >= rockReq && playerMud >= mudReq )
                 {
                     // reduce player resources
-                    BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
+                   // BagResourceManager.SubtractResources( mudReq, woodReq, rockReq );
                     returnVal = 2;
                 }
             }
@@ -107,9 +107,9 @@ public class Walls : MonoBehaviour {
 
     void SetVals()
     {
-        playerWood = BagResourceManager.lumberInBag;
-        playerRock = BagResourceManager.stoneInBag;
-        playerMud = BagResourceManager.mudInBag;
+       // playerWood = BagResourceManager.lumberInBag;
+       // playerRock = BagResourceManager.stoneInBag;
+       // playerMud = BagResourceManager.mudInBag;
     }
 
 }
