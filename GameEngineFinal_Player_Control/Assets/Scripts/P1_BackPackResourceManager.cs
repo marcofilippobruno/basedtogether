@@ -20,7 +20,10 @@ public class P1_BackPackResourceManager : MonoBehaviour {
     void Update()
     {
         backpackSizeCurrent = P1_BagResourceManager.GetResourcesSum();
-        text.text = backpackSizeCurrent.ToString();
+        text.text = 
+            backpackSizeCurrent + " / " + 
+            backpackSizeMax
+            ;
     }
 
     public static int GetBackpackSize()
