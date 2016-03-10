@@ -4,9 +4,8 @@ using System.Collections;
 
 public class BagResourceManager : MonoBehaviour {
 
-	public static int mudInBag;
-    public static int lumberInBag;
-    public static int stoneInBag;
+    private int backpackSize;
+    private int[] inventory = new int[3];
 
     Text text;
 
@@ -14,34 +13,66 @@ public class BagResourceManager : MonoBehaviour {
 	void Awake () {
         text = GetComponent<Text>();
 
-        mudInBag = 0;
-        lumberInBag = 10;
-        stoneInBag = 15;
+        backpackSize = BackPackResourceManager.GetBackpackSize();
+        inventory[0] = 10;
+        inventory[1] = 10;
+        inventory[2] = 10;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         text.text = 
-            mudInBag + "\n" + 
-            lumberInBag + "\n" + 
-            stoneInBag
-            
+            inventory[0] + "\n" + 
+            inventory[1] + "\n" + 
+            inventory[2]
             ;
-
 	}
 
-    public static void AddResources(int mud, int lumber, int stone)
+    public void AddResources( int mud, int lumber, int stone )
     {
-        mudInBag += mud;
-        lumberInBag += lumber;
-        stoneInBag += stone;
+        inventory[0] += mud;
+        inventory[1] += lumber;
+        inventory[2] += stone;
+
+        for( int i = 0; i < inventory.Length; i++ )
+        {
+            if( inventory[i] > backpackSize )
+            {
+                inventory[i] = backpackSize;
+            }
+        }
     }
 
-    public static void SubtractResources( int mud, int lumber, int stone )
+    public void SubtractResources( int mud, int lumber, int stone )
     {
-        mudInBag -= mud;
-        lumberInBag -= lumber;
-        stoneInBag -= stone;
+        inventory[0] -= mud;
+        inventory[1] -= lumber;
+        inventory[2] -= stone;
+
+        for( int i = 0; i < inventory.Length; i++ )
+        {
+            if( inventory[i] < backpackSize )
+            {
+                inventory[i] = 0;
+            }
+        }
+    }
+
+    public int[] GetResources()
+    {
+        return inventory;
+    }
+
+    public int GetResourcesSum()
+    {
+        int sum = 0;
+        
+        for(int i = 0; i < inventory.Length; i++)
+        {
+            sum += inventory[i];
+        }
+
+        return sum;
     }
 }
