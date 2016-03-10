@@ -20,6 +20,9 @@ public class Player_Movement : MonoBehaviour {
     private float maxSpeed = 15f;
     private float upForce = 50f;
     public bool onRamp = false;
+    public GameObject tool = null;
+    public GameObject rHand = null;
+    private int whichTool = 0;
 
 
     void Start ()
@@ -40,6 +43,7 @@ public class Player_Movement : MonoBehaviour {
             PlayerAction();
             Rotation();
             CheckHealth();
+            ToolStep();
         }
     }
     void PlayerAction()
@@ -152,6 +156,15 @@ public class Player_Movement : MonoBehaviour {
             rigid.rotation = Quaternion.RotateTowards(rigid.rotation, targetRot, turnSpeed * Time.fixedDeltaTime);
         }
     }
+
+    void ToolStep()
+    {
+        if( tool != null )
+        {
+            tool.transform.position = rHand.transform.position;
+            tool.transform.rotation = rHand.transform.rotation;
+        }
+    }
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("HealVolume"))
@@ -174,6 +187,19 @@ public class Player_Movement : MonoBehaviour {
         if (other.collider.CompareTag("Ramp"))
         {
             onRamp = false;
+        }
+    }
+    void OnCollisionEnter( Collision other )
+    {
+        if( other.collider.CompareTag( "Tool" ) )
+        {
+            if(other.gameObject.GetComponent<Tool_Behavior>().canPickUp()&&tool==null)
+            {
+                tool = other.gameObject;
+                tool.GetComponent<Tool_Behavior>().pickUp();
+                whichTool = tool.GetComponent<Tool_Behavior>().whichTool;
+            }
+
         }
     }
 }
