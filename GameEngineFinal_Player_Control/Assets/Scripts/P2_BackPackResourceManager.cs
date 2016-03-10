@@ -2,25 +2,24 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class BackPackResourceManager : MonoBehaviour {
+public class P2_BackPackResourceManager : MonoBehaviour {
 
     public static int backpackSizeMax = 30;
-    private int backpackSizeCurrent;
-    private BagResourceManager bag;
+    private static int backpackSizeCurrent;
 
     Text text;
 
     void Awake()
     {
         text = GetComponent<Text>();
-        bag = GetComponent<BagResourceManager>();
-        backpackSizeCurrent = bag.GetResourcesSum();
+        //bag = GetComponent<BagResourceManager>();
+        backpackSizeCurrent = P2_BagResourceManager.GetResourcesSum();
     }
 
     // Update is called once per frame
     void Update()
     {
-        backpackSizeCurrent = bag.GetResourcesSum();
+        backpackSizeCurrent = P2_BagResourceManager.GetResourcesSum();
         text.text = backpackSizeCurrent.ToString();
     }
 

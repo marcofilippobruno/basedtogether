@@ -4,9 +4,8 @@ using System.Collections;
 
 public class BaseResourceManager : MonoBehaviour {
 
-	private static int mudAtBase;
-    private static int lumberAtBase;
-    private static int stoneAtBase;
+    private static int[] baseInventory = new int[3];
+    public int[] startingInventory = new int[3];
 
     Text text;
 
@@ -14,32 +13,32 @@ public class BaseResourceManager : MonoBehaviour {
 	void Awake () {
         text = GetComponent<Text>();
 
-        mudAtBase = 0;
-        lumberAtBase = 10;
-        stoneAtBase = 15;
+        baseInventory[0] = startingInventory[0];
+        baseInventory[1] = startingInventory[1];
+        baseInventory[2] = startingInventory[2];
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
         text.text = 
-            mudAtBase + "\n" + 
-            lumberAtBase + "\n" + 
-            stoneAtBase
+            baseInventory[0] + "\n" + 
+            baseInventory[1] + "\n" + 
+            baseInventory[2]
             ;
 	}
 
     public static void AddResources( int mud, int lumber, int stone )
     {
-        mudAtBase += mud;
-        lumberAtBase += lumber;
-        stoneAtBase += stone;
+        baseInventory[0] += mud;
+        baseInventory[1] += lumber;
+        baseInventory[2] += stone;
     }
 
     public static void SubtractResources( int mud, int lumber, int stone )
     {
-        mudAtBase -= mud;
-        lumberAtBase -= lumber;
-        stoneAtBase -= stone;
+        baseInventory[0] -= mud;
+        baseInventory[1] -= lumber;
+        baseInventory[2] -= stone;
     }
 }
