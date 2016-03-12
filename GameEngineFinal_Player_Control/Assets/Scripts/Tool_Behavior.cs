@@ -24,4 +24,8 @@ public class Tool_Behavior : MonoBehaviour {
     {
         canBePickUp = false;
     }
+    public void Throw()
+    {
+        canBePickUp = true;
+    }
 }

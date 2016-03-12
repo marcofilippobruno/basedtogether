@@ -5,6 +5,7 @@ public class Projectile_Behavior : MonoBehaviour {
 
     private Rigidbody rigid;
     private float speed = 20f;
+    private int dmg = 20;
 
 
 	void Start () 
@@ -17,4 +18,13 @@ public class Projectile_Behavior : MonoBehaviour {
     {
 	    
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyHealth>().TakeDamage(dmg);
+            Destroy(gameObject);
+        }
+    }
 }

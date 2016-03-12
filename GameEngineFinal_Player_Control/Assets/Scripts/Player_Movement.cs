@@ -23,6 +23,7 @@ public class Player_Movement : MonoBehaviour {
     public GameObject tool = null;
     public GameObject rHand = null;
     private int whichTool = 0;
+    public int gatherTimer = 0;
 
 
     void Start ()
@@ -163,8 +164,17 @@ public class Player_Movement : MonoBehaviour {
         {
             tool.transform.position = rHand.transform.position;
             tool.transform.rotation = rHand.transform.rotation;
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                whichTool = 0;
+                tool.GetComponent<Rigidbody>().useGravity = true;
+                tool.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(8f, 0, 0), ForceMode.Impulse);
+                tool.GetComponent<Tool_Behavior>().Throw();
+                tool = null;
+            }
         }
     }
+
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("HealVolume"))
@@ -173,6 +183,29 @@ public class Player_Movement : MonoBehaviour {
             {
                 health += healAmount;
             }
+        }
+        else if (other.CompareTag("Resource"))
+        {
+            int whichR = other.GetComponent<Resource_Behavior>().whichResource;
+            if (whichR==whichTool)
+            {
+                if (gatherTimer >= 5 / Time.fixedDeltaTime)
+                {
+                    other.GetComponent<Resource_Behavior>().Gathered();
+                    gatherTimer = 0;
+                }
+                else
+                {
+                    gatherTimer++;
+                }
+            }
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Resource"))
+        {
+            gatherTimer = 0;
         }
     }
     void OnCollisionStay(Collision other)
@@ -198,6 +231,7 @@ public class Player_Movement : MonoBehaviour {
                 tool = other.gameObject;
                 tool.GetComponent<Tool_Behavior>().pickUp();
                 whichTool = tool.GetComponent<Tool_Behavior>().whichTool;
+                tool.GetComponent<Rigidbody>().useGravity = false;
             }
 
         }

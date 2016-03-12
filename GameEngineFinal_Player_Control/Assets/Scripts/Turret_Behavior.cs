@@ -6,6 +6,7 @@ public class Turret_Behavior : MonoBehaviour {
     private GameObject target = null;
     private GameObject[] targets;
     public GameObject projectile = null;
+    public GameObject bulletSpawnPoint = null;
     private float detectRange = 10f;
     private float distance = 0f;
     private float turnSpeed = 100f;
@@ -24,7 +25,7 @@ public class Turret_Behavior : MonoBehaviour {
 	}
     void SearchForTarget()
     {
-        targets = GameObject.FindGameObjectsWithTag( "Player" );
+        targets = GameObject.FindGameObjectsWithTag("Enemy");
         foreach( GameObject t in targets )
         {
             Vector3 self = new Vector3(transform.position.x,0,transform.position.z);
@@ -55,8 +56,11 @@ public class Turret_Behavior : MonoBehaviour {
             {
                 canShoot = false;
             }
-
-            
+        }
+        else
+        {
+            Quaternion newRot = Quaternion.LookRotation(Vector3.forward);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, newRot, turnSpeed * Time.fixedDeltaTime);
         }
 
     }
@@ -67,7 +71,7 @@ public class Turret_Behavior : MonoBehaviour {
             if( canShoot )
             {
                 canShoot = false;
-                Instantiate( projectile, transform.position, transform.rotation );
+                Instantiate( projectile, bulletSpawnPoint.transform.position, transform.rotation );
             }
             else if( !canShoot )
             {
