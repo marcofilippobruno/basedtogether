@@ -23,10 +23,9 @@ public class EnemyAttack : MonoBehaviour
         anim = GetComponent <Animator> ();
     }
 
-
     void OnTriggerEnter (Collider other)
     {
-        if(other.gameObject == structure)
+        if(other.CompareTag("Building"))
         {
             playerInRange = true;
         }
