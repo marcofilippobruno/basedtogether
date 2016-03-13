@@ -15,6 +15,7 @@ public class PlayerInventoryScript : MonoBehaviour {
     private int[] tempUpgradeReq;
     private int[] tempRepairReq;
     private int tempUgradeIndex;
+    private GameObject target = null;
 
 	void Start () {
 
@@ -23,11 +24,36 @@ public class PlayerInventoryScript : MonoBehaviour {
         {
             inventory[i] = 500;
         }
-
+        tempUgradeIndex = 0;
 
 	}
 	
-	void FixedUpdate () {
+	void FixedUpdate () 
+    {
+        if( target != null )
+        {
+            if( Input.GetKeyUp( KeyCode.R ) )
+            {
+                // spends resources
+                SpendResources( tempRepairReq );
+                Debug.Log( inventory[0] );
+                // upgrades wall
+                target.GetComponent<Walls>().Repaired();
+            }
+            // UPGRADE INPUT //
+            if( Input.GetKeyUp( KeyCode.E ) )
+            {
+                if( tempUgradeIndex < 2 )
+                {
+                    SpendResources( tempUpgradeReq );
+                    target.GetComponent<Walls>().Upgrade( tempUgradeIndex );
+                }
+                else
+                {
+                    // feedback for no upgrade
+                }
+            }
+        }
 
 	}
 
@@ -60,31 +86,11 @@ public class PlayerInventoryScript : MonoBehaviour {
             tempRepairReq = other.GetComponent<Walls>().repairReq;
             tempUpgradeReq = other.GetComponent<Walls>().upgradeReq;
             tempUgradeIndex = other.GetComponent<Walls>().currentState;
-
+            target = other.gameObject;
             // need icons to show if operations can be operated
 
             // REPAIR INPUT //
-            if( Input.GetKeyDown( KeyCode.R ) )
-            {
-                // spends resources
-                SpendResources( tempRepairReq );
-                Debug.Log( inventory[0] );
-                // upgrades wall
-                other.GetComponent<Walls>().Repaired();
-            } 
-            // UPGRADE INPUT //
-            else if( Input.GetKeyDown( KeyCode.E ) )
-            {
-                if( tempUgradeIndex < 1 )
-                {
-                    SpendResources( tempUpgradeReq );
-                    other.GetComponent<Walls>().Upgrade( tempUgradeIndex );
-                }
-                else
-                {
-                    // feedback for no upgrade
-                }
-            }
+
         }
     }
     // 
@@ -95,6 +101,7 @@ public class PlayerInventoryScript : MonoBehaviour {
             tempRepairReq = null;
             tempUpgradeReq = null;
             tempUgradeIndex = 0;
+            target = null;
         }
     }
 

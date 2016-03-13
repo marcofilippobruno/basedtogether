@@ -3,14 +3,13 @@ using System.Collections;
 
 public class Stone_Wall : Walls {
 
-    private int upgradeOneHealth = 75;
-    private int upgradeTwoHealth = 100;
-
 	// Use this for initialization
 	void Start () {
 
-        //set upgrade state //
-        currentState = 0;
+        repairAmount = 25;
+
+        upgradeOneHealth = 75;
+        upgradeTwoHealth = 100;
 
         // set start hp vals //
         maxWallHealth = 50;

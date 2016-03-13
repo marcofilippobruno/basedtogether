@@ -7,22 +7,20 @@ public class Walls : MonoBehaviour {
     public int currentWallHealth;
 
     public int currentState;
-    public int woodReq;
-    public int rockReq;
-    public int mudReq;
     public int upgradeOneHealth;
     public int upgradeTwoHealth;
 
     public int[] repairReq = new int[3];
     public int[] upgradeReq = new int[3];
 
-    private int fullyUpgraded = 2;
-    private int repairAmount = 25;
+    public int repairAmount;
     private Collider meshCollider;
 
 
 	// Use this for initialization
 	void Start () {
+
+        currentState = 0;
 
         meshCollider = GetComponent<MeshCollider>();
 
@@ -51,12 +49,12 @@ public class Walls : MonoBehaviour {
     // repair 
     public void Repaired()
     {
-
+        Debug.Log( "rep" + repairAmount );
         // if can be repaired at all
         if( currentWallHealth < maxWallHealth )
         {
             // repair
-            currentWallHealth += 10;
+            currentWallHealth += repairAmount;
             if( currentWallHealth > maxWallHealth )
             {
                 currentWallHealth = maxWallHealth;
@@ -73,6 +71,7 @@ public class Walls : MonoBehaviour {
         {
             maxWallHealth = upgradeOneHealth;
             currentWallHealth = upgradeOneHealth;
+            currentState++;
 
         }
         // if being upgraded to state 2
@@ -80,11 +79,11 @@ public class Walls : MonoBehaviour {
         {
             maxWallHealth = upgradeTwoHealth;
             currentWallHealth = upgradeTwoHealth;
+            currentState++;
         }
         // if can't be upgraded
         else if (state > 1) {
-            maxWallHealth = maxWallHealth;
-            currentWallHealth = currentWallHealth;
+            currentWallHealth = maxWallHealth;
         }
     }
 
