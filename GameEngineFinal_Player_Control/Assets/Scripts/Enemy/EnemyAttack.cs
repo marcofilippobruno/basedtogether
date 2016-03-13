@@ -11,6 +11,7 @@ public class EnemyAttack : MonoBehaviour
     GameObject structure;
     Walls wall;
     EnemyHealth enemyHealth;
+    EnemyMovement enemyM;
     bool playerInRange;
     float timer;
 
@@ -21,38 +22,45 @@ public class EnemyAttack : MonoBehaviour
         wall = structure.GetComponent <Walls> ();
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent <Animator> ();
+        enemyM = GetComponent<EnemyMovement>();
     }
 
     void OnTriggerEnter (Collider other)
     {
-        if(other.CompareTag("Building"))
+        if (structure != null)
         {
-            playerInRange = true;
+            if (other.gameObject.GetInstanceID() == structure.GetInstanceID())
+            {
+                playerInRange = true;
+            }
         }
     }
 
 
     void OnTriggerExit (Collider other)
     {
-        if(other.gameObject == structure)
+        if (structure != null)
         {
-            playerInRange = false;
+            if (other.gameObject.GetInstanceID() == structure.GetInstanceID())
+            {
+                playerInRange = false;
+            }
         }
     }
 
 
-    void Update ()
+    void FixedUpdate ()
     {
-        timer += Time.deltaTime;
-
-        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
+        timer += Time.fixedDeltaTime;
+        structure = enemyM.GetTarget();
+        if (structure != null)
         {
-            Attack ();
+            wall = structure.GetComponent<Walls>();
         }
 
-        if(wall.currentWallHealth <= 0)
+        if (timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
         {
-            anim.SetTrigger ("PlayerDead");
+            Attack ();
         }
     }
 

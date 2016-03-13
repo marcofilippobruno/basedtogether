@@ -7,7 +7,9 @@ public class EnemyMovement : MonoBehaviour
     GameObject target = null;
     Walls wall;
     EnemyHealth enemyHealth;
+    private float dis = 100000f;
     NavMeshAgent nav;
+
 
 
     void Awake ()
@@ -20,15 +22,37 @@ public class EnemyMovement : MonoBehaviour
     }
 
 
-    void Update ()
+    void FixedUpdate ()
     {
-        if(enemyHealth.currentHealth > 0 && wall.currentWallHealth > 0)
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("Building");
+        for(int i = 0; i < targets.Length; i++)
         {
-            nav.SetDestination (structure.position);
+            Vector3 selfLoc = transform.position;
+            selfLoc.y = 0f;
+            Vector3 targetLoc = targets[i].transform.position;
+            targetLoc.y = 0f;
+            if (dis > Vector3.Distance(selfLoc, targetLoc))
+            {
+                dis = Vector3.Distance(selfLoc, targetLoc);
+                target = targets[i];
+            }
         }
-        else
+        structure = target.transform;
+        if (target != null)
         {
-            nav.enabled = false;
+            if (enemyHealth.currentHealth > 0 && wall.currentWallHealth > 0)
+            {
+                nav.SetDestination(structure.position);
+            }
+            else
+            {
+                nav.enabled = false;
+            }
         }
+
+    }
+    public GameObject GetTarget()
+    {
+        return target;
     }
 }
