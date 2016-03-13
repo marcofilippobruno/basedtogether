@@ -77,6 +77,13 @@ public class PlayerInventoryScript : MonoBehaviour {
         } 
 
     }
+    public void GainResource(int whichResource,int amount)
+    {
+        if (whichResource > 0)
+        {
+            inventory[whichResource - 1] += amount;
+        }
+    }
 
 
     void OnTriggerStay( Collider other )

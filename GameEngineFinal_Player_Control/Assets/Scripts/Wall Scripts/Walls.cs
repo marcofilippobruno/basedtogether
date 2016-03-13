@@ -33,11 +33,11 @@ public class Walls : MonoBehaviour {
 
     // destroy wall if less than 0 hp, else, damage it by damage // 
     public void TakeDamage(int damage){
-        Debug.Log( "Im being called" );
+        //Debug.Log( "Im being called" );
 
         if (currentWallHealth>=0)
         {
-            Debug.Log( "Im being called because i have health" );
+            //Debug.Log( "Im being called because i have health" );
             currentWallHealth -= damage;
         }
         else
@@ -49,7 +49,7 @@ public class Walls : MonoBehaviour {
     // repair 
     public void Repaired()
     {
-        Debug.Log( "rep" + repairAmount );
+        //Debug.Log( "rep" + repairAmount );
         // if can be repaired at all
         if( currentWallHealth < maxWallHealth )
         {

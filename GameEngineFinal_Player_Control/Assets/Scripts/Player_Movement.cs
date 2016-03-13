@@ -24,12 +24,14 @@ public class Player_Movement : MonoBehaviour {
     public GameObject rHand = null;
     private int whichTool = 0;
     public int gatherTimer = 0;
+    private PlayerInventoryScript inventory;
 
 
     void Start ()
     {
         layerMask = 1 << LayerMask.NameToLayer("Terrain");
         rigid = GetComponent<Rigidbody>();
+        inventory = GetComponent<PlayerInventoryScript>();
     }
 	
 
@@ -173,6 +175,10 @@ public class Player_Movement : MonoBehaviour {
                 tool = null;
             }
         }
+        else
+        {
+            gatherTimer = 0;
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -191,7 +197,7 @@ public class Player_Movement : MonoBehaviour {
             {
                 if (gatherTimer >= 5 / Time.fixedDeltaTime)
                 {
-                    other.GetComponent<Resource_Behavior>().Gathered();
+                    inventory.GainResource(whichTool, other.GetComponent<Resource_Behavior>().Gathered());
                     gatherTimer = 0;
                 }
                 else
