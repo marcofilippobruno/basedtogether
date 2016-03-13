@@ -7,22 +7,31 @@ public class Resource_Behavior : MonoBehaviour {
     //1==stone
     //2==wood
     //3==mud
+    private int amount = 0;
 
     void Start ()
     {
         if (whichResource != 0)
         {
-
+            amount = Random.Range(3, 5);
         }
 	}
 	
-	void Update ()
+	void FixedUpdate ()
     {
-	
+        if (amount <= 0)
+        {
+            gameObject.SetActive(false);
+        }
 	}
 
     public void Gathered()
     {
-        Debug.Log("gathered");
+        if (amount > 0)
+        {
+            amount--;
+        }
+
+        
     }
 }
