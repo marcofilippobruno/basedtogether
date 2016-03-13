@@ -36,7 +36,9 @@ public class Player_Placing : MonoBehaviour
 
             if( placeLocation != null && readytoPlace == true )
             {
-                a = Instantiate( Placeable, placeLocation.transform.position, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
+                Vector3 placeLoc = placeLocation.transform.position;
+                placeLoc.y = 1f;
+                a = Instantiate( Placeable, placeLoc, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
                 a.transform.parent = placeLocation.transform;
             }
         }
@@ -47,7 +49,16 @@ public class Player_Placing : MonoBehaviour
         {
             if( placeLocation != null )
             {
-                Instantiate( Placeable2, placeLocation.transform.position, placeLocation.transform.rotation );
+                if( a != null )
+                {
+                    if( a.GetComponent<GreenWallDetect>().canPlace )
+                    {
+                        Vector3 placeLoc = placeLocation.transform.position;
+                        placeLoc.y = 1f;
+                        Instantiate( Placeable2, placeLoc, placeLocation.transform.rotation );
+                    }
+                }
+
             }
 
         }
@@ -61,19 +72,11 @@ public class Player_Placing : MonoBehaviour
 
 
 
-    void OnTriggerEnter( Collider col )
+    void OnTriggerEnter( Collider other )
     {
-        if( col.gameObject.tag == "Building" )
+        if( other.CompareTag( "Building" ) )
         {
-            Renderer rend = col.gameObject.GetComponent<Renderer>();
-            rend.material = REd;
-            Debug.Log( "Building" );
-        }
-        if( col.gameObject.tag != "Building" )
-        {
-            Renderer rend = col.gameObject.GetComponent<Renderer>();
-            rend.material = GReen;
-            canPlace = true;
+
         }
     }
 
