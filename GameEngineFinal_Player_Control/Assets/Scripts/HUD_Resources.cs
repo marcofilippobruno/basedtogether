@@ -20,8 +20,8 @@ public class HUD_Resources : MonoBehaviour {
     private int backpack_sum = 0;
 
 	void Start () {
-        //p1_inventory = player1.PlayerInventory.inventory;
-        //p2_inventory = player2.PlayerInventory.inventory;
+        //p1_inventory = player1.PlayerInventoryScript.inventory;
+        //p2_inventory = player2.PlayerInventoryScript.inventory;
 	}
 	
 	void Update () {
@@ -38,7 +38,7 @@ public class HUD_Resources : MonoBehaviour {
             ;
 
         //p1_base.text =
-        //    base_inventory.inventory.ToString();
+        //    base_inventory.BaseInventoryScript.inventory.ToString();
         //    ;
 
         p2_bag.text =
@@ -53,7 +53,7 @@ public class HUD_Resources : MonoBehaviour {
         ;
 
         //p2_base.text =
-        //    base_inventory.inventory.ToString();
+        //    base_inventory.BaseInventoryScript.inventory.ToString();
         //    ;
 	}
 
