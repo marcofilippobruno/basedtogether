@@ -16,18 +16,16 @@ public class Stone_Wall : Walls {
         maxWallHealth = 50;
         currentWallHealth = 50;
 
-        // array for repairs //
-        // wood in first index // 
+        // array for repair reqs //
         repairReq[0] = 2;
-        // stone in second index //
         repairReq[1] = 2;
-        // mud in third index // 
         repairReq[2] = 4;
 
-        // Req vals for upgrades //
-        woodReq = 5;
-        rockReq = 5;
-        mudReq = 5;
+        // array for upgrade reqs //
+        upgradeReq[0] = 5;
+        upgradeReq[1] = 5;
+        upgradeReq[2] = 5;
+
 	}
 	
 
