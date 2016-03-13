@@ -14,13 +14,14 @@ public class PlayerInventoryScript : MonoBehaviour {
 
     private int[] tempUpgradeReq;
     private int[] tempRepairReq;
+    private int tempUgradeIndex;
 
 	void Start () {
 
         // initialize inventory to empty 
         for( int i = 0; i < inventory.Length; i++ )
         {
-            inventory[i] = 0;
+            inventory[i] = 500;
         }
 
 
@@ -51,45 +52,49 @@ public class PlayerInventoryScript : MonoBehaviour {
 
     }
 
-    /*
-    void Upgrade()
-    {
-        if( Input.GetKeyDown( KeyCode.E ) )
-        {
-            SpendResources(tempUpgradeReq);
-        }
-    }
-
-    void Repair()
-    {
-        if( Input.GetKeyDown( KeyCode.R ) )
-        {
-            SpendResources( tempRepairReq );
-        }
-    }*/
 
     void OnTriggerStay( Collider other )
     {
         if( other.CompareTag( "Building" ) )
         {
-            tempRepairReq = other.GetComponent<Stone_Wall>().repairReq;
-            tempUpgradeReq = other.GetComponent<Stone_Wall>().upgradeReq;
+            tempRepairReq = other.GetComponent<Walls>().repairReq;
+            tempUpgradeReq = other.GetComponent<Walls>().upgradeReq;
+            tempUgradeIndex = other.GetComponent<Walls>().currentState;
 
+            // need icons to show if operations can be operated
+
+            // REPAIR INPUT //
             if( Input.GetKeyDown( KeyCode.R ) )
             {
+                // spends resources
                 SpendResources( tempRepairReq );
-            } else if( Input.GetKeyDown( KeyCode.E ) )
+                Debug.Log( inventory[0] );
+                // upgrades wall
+                other.GetComponent<Walls>().Repaired();
+            } 
+            // UPGRADE INPUT //
+            else if( Input.GetKeyDown( KeyCode.E ) )
             {
-                SpendResources( tempUpgradeReq );
+                if( tempUgradeIndex < 1 )
+                {
+                    SpendResources( tempUpgradeReq );
+                    other.GetComponent<Walls>().Upgrade( tempUgradeIndex );
+                }
+                else
+                {
+                    // feedback for no upgrade
+                }
             }
         }
     }
+    // 
     void OnTriggerExit( Collider other )
     {
         if( other.CompareTag( "Building" ) )
         {
             tempRepairReq = null;
             tempUpgradeReq = null;
+            tempUgradeIndex = 0;
         }
     }
 

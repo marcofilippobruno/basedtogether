@@ -33,29 +33,5 @@ public class Stone_Wall : Walls {
 	    
 	}
 
-    // upgrade stone walls
-
-    public void UpgradeStoneWall( int upgradeVal )
-    {
-        // if can't be upgraded
-        if( upgradeVal == 0 )
-        {
-            maxWallHealth = maxWallHealth;
-            currentWallHealth = currentWallHealth;
-
-        }
-        // if being upgraded to state 1
-        else if( upgradeVal == 1 )
-        {
-            maxWallHealth = upgradeOneHealth;
-            currentWallHealth = upgradeOneHealth;
-        }
-        // if being upgraded to state 2
-        else if( upgradeVal == 2 )
-        {
-            maxWallHealth = upgradeTwoHealth;
-            currentWallHealth = upgradeTwoHealth;
-        }
-
-    }
+   
 }

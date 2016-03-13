@@ -10,10 +10,8 @@ public class Walls : MonoBehaviour {
     public int woodReq;
     public int rockReq;
     public int mudReq;
-
-    private int playerWood;
-    private int playerRock;
-    private int playerMud;
+    public int upgradeOneHealth;
+    public int upgradeTwoHealth;
 
     public int[] repairReq = new int[3];
     public int[] upgradeReq = new int[3];
@@ -51,7 +49,7 @@ public class Walls : MonoBehaviour {
     }
 
     // repair 
-    void Repaired()
+    public void Repaired()
     {
 
         // if can be repaired at all
@@ -68,27 +66,26 @@ public class Walls : MonoBehaviour {
     }
 
     // upgrade
-    public int Upgrade(int currentState){
+    public void Upgrade(int state){
 
-        int returnVal = 0;
-        if (currentState < fullyUpgraded){
-            // upgrade if currently not upgraded at all // 
-            if( currentState == 0 )
-            {
-                    returnVal = 1;                
-            }
-            // upgrade if upgraded once already // 
-            else if( currentState == 1 )
-            {
-                    returnVal = 2;
-            }
-        }
-        // don't check since can't be upgraded any further // 
-        else
+        // if being upgraded to state 1
+        if( state == 0 )
         {
-            returnVal = 0;
+            maxWallHealth = upgradeOneHealth;
+            currentWallHealth = upgradeOneHealth;
+
         }
-        return returnVal;
+        // if being upgraded to state 2
+        else if( state == 1 )
+        {
+            maxWallHealth = upgradeTwoHealth;
+            currentWallHealth = upgradeTwoHealth;
+        }
+        // if can't be upgraded
+        else if (state > 1) {
+            maxWallHealth = maxWallHealth;
+            currentWallHealth = currentWallHealth;
+        }
     }
 
 }
