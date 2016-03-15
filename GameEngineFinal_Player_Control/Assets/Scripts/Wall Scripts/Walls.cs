@@ -25,11 +25,14 @@ public class Walls : MonoBehaviour {
         meshCollider = GetComponent<MeshCollider>();
 
 	}
-	
-	// Update is called once per frame // 
-	void FixedUpdate () {
 
-	}
+    void Update()
+    {
+        if( currentWallHealth <= 0 )
+        {
+            Destroy( gameObject );
+        }
+    }
 
     // destroy wall if less than 0 hp, else, damage it by damage // 
     public void TakeDamage(int damage){
@@ -39,10 +42,6 @@ public class Walls : MonoBehaviour {
         {
             //Debug.Log( "Im being called because i have health" );
             currentWallHealth -= damage;
-        }
-        else
-        {
-            // destroy structure
         }
     }
 
