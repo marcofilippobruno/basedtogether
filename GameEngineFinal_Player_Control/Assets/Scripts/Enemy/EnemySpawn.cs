@@ -3,8 +3,8 @@ using System.Collections;
 
 public class EnemySpawn : MonoBehaviour {
 
-    public int count = 0;
-    public int maxCount = 300;
+    private int count = 0;
+    private int maxCount = 300;
     public GameObject enemy = null;
 	void Start () 
     {
