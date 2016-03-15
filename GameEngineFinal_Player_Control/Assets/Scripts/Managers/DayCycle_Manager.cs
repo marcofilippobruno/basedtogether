@@ -11,6 +11,8 @@ public class DayCycle_Manager : MonoBehaviour {
 
     float sunInitialIntensity;
 
+    private bool isDay;
+
 	// Use this for initialization
 	void Start () {
         sunInitialIntensity = sun.intensity;
@@ -19,6 +21,15 @@ public class DayCycle_Manager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         UpdateSun();
+
+        if( currentTimeOfDay < 0.25 || currentTimeOfDay > 0.75 )
+        {
+            isDay = false;
+        }
+        else
+        {
+            isDay = true;
+        }
 
         currentTimeOfDay += (Time.deltaTime / dayLengthInSeconds) * timeMultiplier;
 
