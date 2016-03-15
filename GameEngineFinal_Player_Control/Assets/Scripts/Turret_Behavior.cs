@@ -7,9 +7,9 @@ public class Turret_Behavior : MonoBehaviour {
     private GameObject[] targets;
     public GameObject projectile = null;
     public GameObject bulletSpawnPoint = null;
-    private float detectRange = 10f;
+    private float detectRange = 20f;
     private float distance = 0f;
-    private float turnSpeed = 100f;
+    private float turnSpeed = 200f;
     private bool canShoot = false;
     private int timer = 0;
 	void Start () 
@@ -26,17 +26,14 @@ public class Turret_Behavior : MonoBehaviour {
     void SearchForTarget()
     {
         targets = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach( GameObject t in targets )
+        for( int i = 0; i < targets.Length; i++ )
         {
-            Vector3 self = new Vector3(transform.position.x,0,transform.position.z);
-            Vector3 other = new Vector3(t.transform.position.x,0,t.transform.position.z);
+            Vector3 self = new Vector3( transform.position.x, 0, transform.position.z );
+            Vector3 other = new Vector3( targets[i].transform.position.x, 0, targets[i].transform.position.z );
             if( Vector3.Distance( self, other ) < detectRange )
             {
-                if( Vector3.Distance( self, other ) < distance )
-                {
-                    distance = Vector3.Distance( self, other );
-                    target = t;
-                }
+                distance = Vector3.Distance( self, other );
+                target = targets[i];
             }
         }
     }
@@ -75,7 +72,7 @@ public class Turret_Behavior : MonoBehaviour {
             }
             else if( !canShoot )
             {
-                if( timer < 1.5 / Time.fixedDeltaTime )
+                if( timer < 0.3 / Time.fixedDeltaTime )
                 {
                     timer++;
                 }
