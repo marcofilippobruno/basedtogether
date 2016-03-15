@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Player_Placing : MonoBehaviour
 {
     public GameObject[] place1 = null;
-    private GameObject[,] Placeable = new GameObject[2,2];
+    private GameObject[,] Placeable = new GameObject[3,2];
     private int placeableIndex = 0;
     public float ObjectDistance;
     private Rigidbody rigid;
@@ -25,9 +25,9 @@ public class Player_Placing : MonoBehaviour
         int id=0;
         if( place1 != null )
         {
-            for( int i = 0; i < place1.Length / 2; i++ )
+            for( int i = 0; i < 3; i++ )
             {
-                for( int t = 0; t < place1.Length / 2; t++ )
+                for( int t = 0; t < 2; t++ )
                 {
                     Placeable[i, t] = place1[id];
                     id++;
@@ -53,6 +53,17 @@ public class Player_Placing : MonoBehaviour
                 }
             }
             else if( placeableIndex == 1 )
+            {
+                placeableIndex = 2;
+                if( a != null )
+                {
+                    Destroy( a );
+                    Vector3 placeLoc = placeLocation.transform.position;
+                    a = Instantiate( Placeable[placeableIndex, 0], placeLoc, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
+                    a.transform.parent = placeLocation.transform;
+                }
+            }
+            else if( placeableIndex == 2 )
             {
                 placeableIndex = 0;
                 if( a != null )
