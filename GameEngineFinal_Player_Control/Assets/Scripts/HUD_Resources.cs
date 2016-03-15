@@ -8,6 +8,8 @@ public class HUD_Resources : MonoBehaviour {
     public GameObject player2;
     public GameObject base_inventory;
 
+    public Slider player_1_health;
+    public Slider player_2_health;
     public Text p1_bag;
     public Text p1_backpack;
     public Text p1_base;
@@ -20,11 +22,20 @@ public class HUD_Resources : MonoBehaviour {
     private int backpack_sum = 0;
 
 	void Start () {
-        //p1_inventory = player1.PlayerInventoryScript.inventory;
-        //p2_inventory = player2.PlayerInventoryScript.inventory;
+        p1_inventory = player1.GetComponent<PlayerInventoryScript>().inventory;
+        p2_inventory = player2.GetComponent<PlayerInventoryScript>().inventory;
+
+        player_1_health.value = player1.GetComponent<Player_Movement>().health;
+        player_2_health.value = player2.GetComponent<Player_Movement>().health;
 	}
 	
 	void Update () {
+
+        p1_inventory = player1.GetComponent<PlayerInventoryScript>().inventory;
+        p2_inventory = player2.GetComponent<PlayerInventoryScript>().inventory;
+
+        player_1_health.value = player1.GetComponent<Player_Movement>().health;
+        player_2_health.value = player2.GetComponent<Player_Movement>().health;
 
         p1_bag.text =
             p1_inventory[0] + "\n" +
@@ -34,11 +45,11 @@ public class HUD_Resources : MonoBehaviour {
 
         backpack_sum = GetResourcesSum( p1_inventory );
         p1_backpack.text =
-            backpack_sum.ToString() + " / 30";
+            backpack_sum.ToString() + " / 30(MAX)";
             ;
 
         //p1_base.text =
-        //    base_inventory.BaseInventoryScript.inventory.ToString();
+        //    base_inventory.GetComponent<BaseInventoryScript>().inventory.ToString();
         //    ;
 
         p2_bag.text =
@@ -49,11 +60,11 @@ public class HUD_Resources : MonoBehaviour {
 
         backpack_sum = GetResourcesSum( p2_inventory );
         p2_backpack.text =
-            backpack_sum.ToString() + " / 30";
+            backpack_sum.ToString() + " / 30(MAX)";
         ;
 
         //p2_base.text =
-        //    base_inventory.BaseInventoryScript.inventory.ToString();
+        //    base_inventory.GetComponent<BaseInventoryScript>().inventory.ToString();
         //    ;
 	}
 
