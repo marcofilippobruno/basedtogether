@@ -18,6 +18,7 @@ public class GreenWallDetect : MonoBehaviour {
         {
             if( other.CompareTag( "Building" ) )
             {
+
                 if( rend.material != mat[1] )
                 {
                     rend.material = mat[1];

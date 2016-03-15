@@ -16,7 +16,7 @@ public class Walls : MonoBehaviour {
     public int repairAmount;
     private Collider meshCollider;
 
-    public GameObject attacker = null;
+
 
 	// Use this for initialization
 	void Start () {
@@ -26,20 +26,14 @@ public class Walls : MonoBehaviour {
         meshCollider = GetComponent<MeshCollider>();
 
 	}
-
-    void Update()
-    {
+	
+	// Update is called once per frame // 
+	void FixedUpdate () {
         if( currentWallHealth <= 0 )
         {
-            //Destroy( gameObject );
-            if( gameObject.activeSelf )
-            {
-                Debug.Log( "deactive" );
-                //attacker.GetComponent<EnemyMovement>().dis = 100000f;
-                gameObject.SetActive( false );
-            }
+            Destroy( gameObject );
         }
-    }
+	}
 
     // destroy wall if less than 0 hp, else, damage it by damage // 
     public void TakeDamage(int damage){
@@ -49,6 +43,10 @@ public class Walls : MonoBehaviour {
         {
             //Debug.Log( "Im being called because i have health" );
             currentWallHealth -= damage;
+        }
+        else
+        {
+            // destroy structure
         }
     }
 

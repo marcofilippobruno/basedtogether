@@ -12,7 +12,7 @@ public class EnemyAttack : MonoBehaviour
     Walls wall;
     EnemyHealth enemyHealth;
     EnemyMovement enemyM;
-    bool playerInRange;
+    private bool playerInRange;
     float timer;
 
 
@@ -73,5 +73,9 @@ public class EnemyAttack : MonoBehaviour
         {
             wall.TakeDamage (attackDamage);
         }
+    }
+    public void Reset()
+    {
+        playerInRange = false;
     }
 }

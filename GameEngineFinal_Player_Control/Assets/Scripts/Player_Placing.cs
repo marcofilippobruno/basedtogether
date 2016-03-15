@@ -44,10 +44,24 @@ public class Player_Placing : MonoBehaviour
             if( placeableIndex == 0 )
             {
                 placeableIndex = 1;
+                if( a != null )
+                {
+                    Destroy( a );
+                    Vector3 placeLoc = placeLocation.transform.position;
+                    a = Instantiate( Placeable[placeableIndex, 0], placeLoc, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
+                    a.transform.parent = placeLocation.transform;
+                }
             }
             else if( placeableIndex == 1 )
             {
                 placeableIndex = 0;
+                if( a != null )
+                {
+                    Destroy( a );
+                    Vector3 placeLoc = placeLocation.transform.position;
+                    a = Instantiate( Placeable[placeableIndex, 0], placeLoc, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
+                    a.transform.parent = placeLocation.transform;
+                }
             }
         }
         if (playerM.whichPlayer == 1)
@@ -61,7 +75,7 @@ public class Player_Placing : MonoBehaviour
     }
     void BuildP1()
     {
-
+        
         if( Input.GetButtonUp( "Fire1" ))
         {
             readytoPlace = !readytoPlace;
