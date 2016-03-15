@@ -16,6 +16,7 @@ public class Walls : MonoBehaviour {
     public int repairAmount;
     private Collider meshCollider;
 
+    public GameObject attacker = null;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,13 @@ public class Walls : MonoBehaviour {
     {
         if( currentWallHealth <= 0 )
         {
-            Destroy( gameObject );
+            //Destroy( gameObject );
+            if( gameObject.activeSelf )
+            {
+                Debug.Log( "deactive" );
+                //attacker.GetComponent<EnemyMovement>().dis = 100000f;
+                gameObject.SetActive( false );
+            }
         }
     }
 
