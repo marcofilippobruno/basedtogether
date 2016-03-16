@@ -6,8 +6,8 @@ public class DayCycle_Manager : MonoBehaviour {
     public Light sun;
     public float dayLengthInSeconds = 120f;
     [Range( 0, 1 )]
-    public float currentTimeOfDay = 0;
-    public float timeMultiplier = 1f;
+    public float currentTimeOfDay = 0f;
+    public float timeMultiplier = 2f;
 
     float sunInitialIntensity;
 
@@ -31,7 +31,14 @@ public class DayCycle_Manager : MonoBehaviour {
             isDay = true;
         }
 
-        currentTimeOfDay += (Time.deltaTime / dayLengthInSeconds) * timeMultiplier;
+        if( currentTimeOfDay <= 0.25f || currentTimeOfDay >= 0.75f )
+        {
+            currentTimeOfDay += (Time.deltaTime / dayLengthInSeconds * timeMultiplier);
+        }
+        else
+        {
+            currentTimeOfDay += (Time.deltaTime / dayLengthInSeconds);
+        }
 
         if(currentTimeOfDay >= 1)
         {
@@ -59,6 +66,7 @@ public class DayCycle_Manager : MonoBehaviour {
 
         sun.intensity = sunInitialIntensity * intensityMultiplier;
     }
+
     public bool IsDay()
     {
         return isDay;
