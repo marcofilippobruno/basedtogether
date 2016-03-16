@@ -16,6 +16,10 @@ public class Player_Placing : MonoBehaviour
     public Material GReen;
     public Material REd;
     private Player_Movement playerM = null;
+    private bool showTurret = false;
+    public GameObject turretPrefab = null;
+    private GameObject turret = null;
+    private Transform towerLoc;
 
     // Use this for initialization
     void Awake()
@@ -124,38 +128,27 @@ public class Player_Placing : MonoBehaviour
     }
     void BuildP2()
     {
-        if (Input.GetKeyUp(KeyCode.Joystick1Button3))
+        if( Input.GetKeyUp( KeyCode.Joystick1Button3 ) )
         {
+            // 
             readytoPlace = !readytoPlace;
-
-            if (placeLocation != null && readytoPlace == true)
+            if( placeLocation != null && readytoPlace)
             {
-                Vector3 placeLoc = placeLocation.transform.position;
-                placeLoc.y = 1f;
-                a = Instantiate( Placeable[0,0], placeLoc, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
-                a.transform.parent = placeLocation.transform;
-            }
-        }
-        if (canPlace == true && Input.GetKeyUp(KeyCode.Joystick1Button0))
-        {
-            if (placeLocation != null)
-            {
-                if (a != null)
+                if( showTurret )
                 {
-                    if (a.GetComponent<GreenWallDetect>().canPlace)
+                    if( turret == null )
                     {
-                        Vector3 placeLoc = placeLocation.transform.position;
-                        placeLoc.y = 1f;
-                        Instantiate( Placeable[0,0], placeLoc, placeLocation.transform.rotation );
+
+                        turret = Instantiate( turretPrefab, towerLoc.position, Quaternion.Euler( 270, transform.eulerAngles.y, 0 ) ) as GameObject;
                     }
                 }
-
             }
-
         }
-        if (readytoPlace == false)
+
+
+        if( readytoPlace == false )
         {
-            Destroy(a);
+            Destroy( turret );
         }
     }
 
@@ -165,9 +158,24 @@ public class Player_Placing : MonoBehaviour
     {
         if( other.CompareTag( "Building" ) )
         {
-
+            
         }
     }
 
-
+    void onTriggerStay(Collider other)
+    {
+        if( other.GetComponent<Walls>().whichBuilding == 2 )
+        {
+            showTurret = true;
+            towerLoc = other.transform;
+            towerLoc.position = new Vector3( towerLoc.position.x, 15f, towerLoc.position.z );
+        }
+    }
+    void OnTriggerExit( Collider other )
+    {
+        if( other.GetComponent<Walls>().whichBuilding == 2 )
+        {
+            showTurret = false;
+        }
+    }
 }

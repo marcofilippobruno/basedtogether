@@ -15,7 +15,7 @@ public class Walls : MonoBehaviour {
 
     public int repairAmount;
     private Collider meshCollider;
-
+    public int whichBuilding = 0;
 
 
 	// Use this for initialization
