@@ -17,6 +17,8 @@ public class Walls : MonoBehaviour {
     private Collider meshCollider;
     public int whichBuilding = 0;
 
+    public int[] buildReq = new int[3];
+     
 
 	// Use this for initialization
 	void Start () {
