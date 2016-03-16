@@ -59,4 +59,8 @@ public class DayCycle_Manager : MonoBehaviour {
 
         sun.intensity = sunInitialIntensity * intensityMultiplier;
     }
+    public bool IsDay()
+    {
+        return isDay;
+    }
 }

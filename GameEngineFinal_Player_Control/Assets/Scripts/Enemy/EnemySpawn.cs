@@ -3,29 +3,41 @@ using System.Collections;
 
 public class EnemySpawn : MonoBehaviour {
 
-    private int count = 0;
-    private int maxCount = 300;
+    private float count = 0;
+    private int maxCount = 5;
     public GameObject enemy = null;
+    private GameObject sun = null;
 	void Start () 
     {
-	    
+        sun = GameObject.FindGameObjectWithTag( "Sun" );
 	}
 	
 
 	void FixedUpdate () 
     {
-        if( enemy != null )
+        if( sun != null )
         {
-            if( count < maxCount )
+            if( !sun.GetComponent<DayCycle_Manager>().IsDay() )
             {
-                count++;
+                if( enemy != null )
+                {
+                    if( count < maxCount )
+                    {
+                        count += Time.fixedDeltaTime;
+                    }
+                    else
+                    {
+                        count = 0;
+                        Instantiate( enemy, transform.position, transform.rotation );
+                    }
+                }
             }
             else
             {
                 count = 0;
-                Instantiate( enemy, transform.position, transform.rotation );
             }
         }
+
 
 	}
 }
