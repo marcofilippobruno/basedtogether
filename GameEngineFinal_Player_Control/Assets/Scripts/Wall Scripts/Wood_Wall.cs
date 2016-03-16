@@ -25,6 +25,11 @@ public class Wood_Wall : Walls {
         upgradeReq[1] = 10;
         upgradeReq[2] = 2;
 
+        // array for build reqs //
+        buildReq[0] = 10;
+        buildReq[1] = 14;
+        buildReq[2] = 2;
+
 	}
 	
 

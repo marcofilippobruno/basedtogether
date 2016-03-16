@@ -17,7 +17,14 @@ public class PlayerInventoryScript : MonoBehaviour {
     private int tempUgradeIndex;
     private GameObject target = null;
 
+    public int[] buildReqTurret = new int[3];
+
 	void Start () {
+
+        buildReqTurret[0] = 6;
+        buildReqTurret[1] = 6;
+        buildReqTurret[2] = 8;
+
 
         // initialize inventory to empty 
         for( int i = 0; i < inventory.Length; i++ )
@@ -112,4 +119,34 @@ public class PlayerInventoryScript : MonoBehaviour {
         }
     }
 
+    public bool CanBuildWall( Walls wall )
+    {
+        bool canBuild = false;
+
+        if( (inventory[0] >= wall.buildReq[0]) &&
+            (inventory[1] >= wall.buildReq[1]) &&
+            (inventory[2] >= wall.buildReq[2]) )
+        {
+            canBuild = true;
+
+        }
+
+        return canBuild;
+    }
+
+
+    public bool CanBuildTurret()
+    {
+        bool canBuild = false;
+
+        if( (inventory[0] >= buildReqTurret[0]) &&
+            (inventory[1] >= buildReqTurret[1]) &&
+            (inventory[2] >= buildReqTurret[2]) )
+        {
+            canBuild = true;
+
+        }
+
+        return canBuild;
+    }
 }

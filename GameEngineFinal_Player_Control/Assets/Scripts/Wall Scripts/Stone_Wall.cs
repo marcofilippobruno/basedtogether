@@ -25,6 +25,22 @@ public class Stone_Wall : Walls {
         upgradeReq[1] = 2;
         upgradeReq[2] = 10;
 
+        // array for build reqs //
+        if( whichBuilding == 1 )
+        {
+            buildReq[0] = 10;
+            buildReq[1] = 4;
+            buildReq[2] = 14;
+        }
+        else if( whichBuilding == 2 )
+        {
+            buildReq[0] = 12;
+            buildReq[1] = 2;
+            buildReq[2] = 16;
+        }
+
+
+
 	}
 	
 
