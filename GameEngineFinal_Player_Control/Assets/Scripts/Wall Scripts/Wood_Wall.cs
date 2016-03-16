@@ -31,6 +31,12 @@ public class Wood_Wall : Walls {
         buildReq[2] = 2;
 
 	}
+    public void Init()
+    {
+        buildReq[0] = 10;
+        buildReq[1] = 14;
+        buildReq[2] = 2;
+    }
 	
 
 

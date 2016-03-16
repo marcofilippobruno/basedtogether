@@ -46,7 +46,7 @@ public class Player_Movement : MonoBehaviour {
             PlayerAction();
             Rotation();
             CheckHealth();
-            ToolStep();
+            ToolStep(whichPlayer);
         }
     }
     void PlayerAction()
@@ -160,20 +160,35 @@ public class Player_Movement : MonoBehaviour {
         }
     }
 
-    void ToolStep()
+    void ToolStep(int wPlayer)
     {
         if( tool != null )
         {
             tool.transform.position = rHand.transform.position;
             tool.transform.rotation = rHand.transform.rotation;
-            if (Input.GetKeyDown(KeyCode.F))
+            if( wPlayer == 1 )
             {
-                whichTool = 0;
-                tool.GetComponent<Rigidbody>().useGravity = true;
-                tool.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(8f, 0, 0), ForceMode.Impulse);
-                tool.GetComponent<Tool_Behavior>().Throw();
-                tool = null;
+                if( Input.GetKeyDown( KeyCode.F ) )
+                {
+                    whichTool = 0;
+                    tool.GetComponent<Rigidbody>().useGravity = true;
+                    tool.GetComponent<Rigidbody>().AddRelativeForce( new Vector3( 8f, 0, 0 ), ForceMode.Impulse );
+                    tool.GetComponent<Tool_Behavior>().Throw();
+                    tool = null;
+                }
             }
+            else if( wPlayer == 2 )
+            {
+                if( Input.GetKeyDown( KeyCode.Joystick1Button3 ) )
+                {
+                    whichTool = 0;
+                    tool.GetComponent<Rigidbody>().useGravity = true;
+                    tool.GetComponent<Rigidbody>().AddRelativeForce( new Vector3( 8f, 0, 0 ), ForceMode.Impulse );
+                    tool.GetComponent<Tool_Behavior>().Throw();
+                    tool = null;
+                }
+            }
+
         }
         else
         {

@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class Stone_Wall : Walls {
-
+    private GameObject turretThis = null;
+    private Vector3 turretLoc;
+    private bool canPlace = true;
 	// Use this for initialization
 	void Start () {
 
@@ -39,11 +41,34 @@ public class Stone_Wall : Walls {
             buildReq[2] = 16;
         }
 
-
+        turretLoc = transform.position;
+        turretLoc.y = 5f;
 
 	}
-	
-
+    public void CreateTurret( GameObject turret )
+    {
+        canPlace = false;
+        turretThis = Instantiate( turret, turretLoc, Quaternion.Euler( 0, 0, 0 ) ) as GameObject;
+    }
+    public bool GetTurret()
+    {
+        return canPlace;
+    }
+    public void Init()
+    {
+        if( whichBuilding == 1 )
+        {
+            buildReq[0] = 10;
+            buildReq[1] = 4;
+            buildReq[2] = 14;
+        }
+        else if( whichBuilding == 2 )
+        {
+            buildReq[0] = 12;
+            buildReq[1] = 2;
+            buildReq[2] = 16;
+        }
+    }
 
 
    

@@ -144,9 +144,29 @@ public class PlayerInventoryScript : MonoBehaviour {
             (inventory[2] >= buildReqTurret[2]) )
         {
             canBuild = true;
-
         }
 
         return canBuild;
+    }
+    public void BuildTurret()
+    {
+        for( int i = 0; i < 3; i++ )
+        {
+            inventory[i] -= buildReqTurret[i];
+        }
+    }
+    public void BuildStoneWall( Stone_Wall wall )
+    {
+        for( int i = 0; i < 3; i++ )
+        {
+            inventory[i] -= wall.buildReq[i];
+        }
+    }
+    public void BuildWoodWall( Wood_Wall wall )
+    {
+        for( int i = 0; i < 3; i++ )
+        {
+            inventory[i] -= wall.buildReq[i];
+        }
     }
 }
