@@ -23,17 +23,9 @@ public class Player_Placing : MonoBehaviour
     private Vector3 turretLoc;
     private Stone_Wall stoneWall = null;
     private PlayerInventoryScript inventory;
-    private Stone_Wall sw = new Stone_Wall();
-    private Wood_Wall ww = new Wood_Wall();
-    private Stone_Wall tower = new Stone_Wall();
     // Use this for initialization
     void Awake()
     {
-        sw.whichBuilding = 1;
-        sw.Init();
-        tower.whichBuilding = 2;
-        tower.Init();
-        ww.Init();
         rigid = GetComponent<Rigidbody>();
         playerM = GetComponent<Player_Movement>();
         inventory = GetComponent<PlayerInventoryScript>();
@@ -123,25 +115,25 @@ public class Player_Placing : MonoBehaviour
                     {
                         if( placeableIndex == 0 )
                         {
-                            if( inventory.CanBuildWall( sw ) )
+                            if( inventory.CanBuildWall( 1 ) )
                             {
-                                inventory.BuildStoneWall(sw);
+                                inventory.BuildStoneWall();
                                 BuildWall();
                             }
                         }
                         else if( placeableIndex == 1 )
                         {
-                            if( inventory.CanBuildWall( sw ) )
+                            if( inventory.CanBuildWall( 2 ) )
                             {
-                                inventory.BuildStoneWall( sw );
+                                inventory.BuildTower();
                                 BuildWall();
                             }
                         }
                         else if( placeableIndex == 2 )
                         {
-                            if( inventory.CanBuildWall( ww ) )
+                            if( inventory.CanBuildWall( 3 ) )
                             {
-                                inventory.BuildWoodWall( ww );
+                                inventory.BuildWoodWall();
                                 BuildWall();
                             }
                         }

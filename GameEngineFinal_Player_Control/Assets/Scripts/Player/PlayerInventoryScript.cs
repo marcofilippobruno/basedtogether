@@ -16,6 +16,9 @@ public class PlayerInventoryScript : MonoBehaviour {
     private int[] tempRepairReq;
     private int tempUgradeIndex;
     private GameObject target = null;
+    private int[] stoneWallCosts = new int[3];
+    private int[] woodWallCosts = new int[3];
+    private int[] towerCosts = new int[3];
 
     public int[] buildReqTurret = new int[3];
 
@@ -25,7 +28,17 @@ public class PlayerInventoryScript : MonoBehaviour {
         buildReqTurret[1] = 6;
         buildReqTurret[2] = 8;
 
+        stoneWallCosts[0] = 10;
+        stoneWallCosts[1] = 14;
+        stoneWallCosts[2] = 2;
 
+        woodWallCosts[0] = 10;
+        woodWallCosts[1] = 14;
+        woodWallCosts[2] = 2;
+
+        towerCosts[0] = 12;
+        towerCosts[1] = 2;
+        towerCosts[2] = 16;
         // initialize inventory to empty 
         for( int i = 0; i < inventory.Length; i++ )
         {
@@ -119,18 +132,33 @@ public class PlayerInventoryScript : MonoBehaviour {
         }
     }
 
-    public bool CanBuildWall( Walls wall )
+    public bool CanBuildWall( int which)
     {
         bool canBuild = false;
-
-        if( (inventory[0] >= wall.buildReq[0]) &&
-            (inventory[1] >= wall.buildReq[1]) &&
-            (inventory[2] >= wall.buildReq[2]) )
+        if( which == 1 )
         {
-            canBuild = true;
+            if( (inventory[0] >= stoneWallCosts[0]) &&(inventory[1] >= stoneWallCosts[1]) &&(inventory[2] >= stoneWallCosts[2]) )
+            {
+                canBuild = true;
 
+            }
         }
+        else if(which==2)
+        {
+            if( (inventory[0] >= towerCosts[0]) && (inventory[1] >= towerCosts[1]) && (inventory[2] >= towerCosts[2]) )
+            {
+                canBuild = true;
 
+            }
+        }
+        else if(which==3)
+        {
+            if( (inventory[0] >= woodWallCosts[0]) && (inventory[1] >= woodWallCosts[1]) && (inventory[2] >= woodWallCosts[2]) )
+            {
+                canBuild = true;
+
+            }
+        }
         return canBuild;
     }
 
@@ -155,18 +183,25 @@ public class PlayerInventoryScript : MonoBehaviour {
             inventory[i] -= buildReqTurret[i];
         }
     }
-    public void BuildStoneWall( Stone_Wall wall )
+    public void BuildStoneWall()
     {
         for( int i = 0; i < 3; i++ )
         {
-            inventory[i] -= wall.buildReq[i];
+            inventory[i] -= stoneWallCosts[i];
         }
     }
-    public void BuildWoodWall( Wood_Wall wall )
+    public void BuildWoodWall()
     {
         for( int i = 0; i < 3; i++ )
         {
-            inventory[i] -= wall.buildReq[i];
+            inventory[i] -= woodWallCosts[i];
+        }
+    }
+    public void BuildTower()
+    {
+        for( int i = 0; i < 3; i++ )
+        {
+            inventory[i] -= towerCosts[i];
         }
     }
 }
